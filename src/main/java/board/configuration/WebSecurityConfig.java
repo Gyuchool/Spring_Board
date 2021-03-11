@@ -42,8 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(tokenRepository());
         http.authorizeRequests()
                 .antMatchers("/","/members/login","/members/new").permitAll()  //누구나 접근 가능
-                .antMatchers("/list","/post", "/post/{no}", "board/search","/post/edit/{no}").hasRole("USER")           //USER, ADMIN 접근 가능
-                .antMatchers("/admin").hasRole("ADMIN")     //ADMIN만 접근 가능
+                .antMatchers("/list","/post", "/post/{no}", "board/search","/post/edit/{no}").hasRole("ROLE_USER")           //USER, ADMIN 접근 가능
+                .antMatchers("/admin/**").hasRole("ROLE_ADMIN")     //ADMIN만 접근 가능
                 .anyRequest().authenticated()   //나머지 요청들은 권한이 있어야만 접근 가능
                 .and()
                     .formLogin()
