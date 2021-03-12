@@ -3,6 +3,7 @@ package board.Controller;
 
 import board.Service.MemberService;
 import board.dto.MemberDto;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -51,8 +52,12 @@ public class MemberController {
     }
 
     @PostMapping("/members/login")
-    public String MemberLogin(HttpServletResponse response, HttpServletRequest request){
-        return "redirect:/list";
+    public String MemberLogin(HttpServletRequest request, MemberDto memberDto){
+        int login = memberService.login(memberDto);
+        if(login == 1){
+            return "redirect:/list";
+        }
+        return "redirect:/member/login";
     }
 
     /**

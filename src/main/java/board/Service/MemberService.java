@@ -19,7 +19,7 @@ public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
-    //==Spring Security==//
+    //==Spring Security 회원가입==//
     public Long join(MemberDto memberDto){
         validateDuplicateMember(memberDto);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -28,15 +28,6 @@ public class MemberService implements UserDetailsService {
         return memberRepository.save(memberDto.toEntity()).getId();
     }
 
-//    /**
-//     * 회원가입
-//     */
-//    public Long join(MemberDto memberDto){
-//        validateDuplicateMember(memberDto);
-//        memberRepository.save(memberDto.toEntity());
-//        return memberDto.getId();
-//    }
-//
     //==중복 방지==//
     private void validateDuplicateMember(MemberDto memberDto) {
         List<MemberEntity> members = memberRepository.findAll();
@@ -47,27 +38,15 @@ public class MemberService implements UserDetailsService {
         }
     }
 
-//    public int login(MemberDto memberDto){
-//        MemberEntity byEmail = memberRepository.findByEmail(memberDto.getEmail());
-//        MemberEntity byPassword = memberRepository.findByPassword(memberDto.getPassword());
-//        List<MemberEntity> all = memberRepository.findAll();
-//        for(int i=0;i<all.size(); ++i){
-//            if(all.get(i).equals(byEmail)){
-//                if(all.get(i).equals(byPassword)){
-//                    return 1;
-//                }
-//            }
-//        }
-//        return 0;
-//
-//    }
-    private MemberDto convertEntityToDto(MemberEntity memberEntity){
-        return MemberDto.builder()
-                .id(memberEntity.getId())
-                .email(memberEntity.getEmail())
-                .password(memberEntity.getPassword())
-                .auth(memberEntity.getAuth())
-                .build();
+    public int login(MemberDto memberDto){
+        MemberEntity byEmail = memberRepository.findByEmail(memberDto.getEmail()).get();
+        MemberEntity byPassword = memberRepository.findByPassword(memberDto.getPassword()).get();
+
+        if(byEmail == byPassword){
+            return 1;
+        }
+        return 0;
+
     }
 
     @Override
