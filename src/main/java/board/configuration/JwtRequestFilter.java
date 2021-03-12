@@ -36,7 +36,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     ));
 
 
-    // * 클래스로써 요청당 한번의 filter를 수행하도록 * //
+    // * 클래스로서 요청당 한번의 filter를 수행하도록 * //
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String requestTokenHeader = request.getHeader("Authorization");

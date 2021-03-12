@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -30,12 +31,9 @@ public class MemberService implements UserDetailsService {
 
     //==중복 방지==//
     private void validateDuplicateMember(MemberDto memberDto) {
-        List<MemberEntity> members = memberRepository.findAll();
-        for(int i=0;i<members.size(); ++i){
-            if(members.get(i).getEmail().equals(memberDto.getEmail())){
-                throw new IllegalStateException("이미 존재하는 회원입니다.");
-            }
-        }
+
+        memberRepository.findByEmail(memberDto.getEmail())
+                .ifPresent( error -> new IllegalStateException("이미 존재하는 회원입니다."));
     }
 
     public int login(MemberDto memberDto){

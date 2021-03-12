@@ -31,7 +31,6 @@ import java.io.IOException;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final MemberService memberService;
     private final DataSource dataSource;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final UserDetailsService userDetailsService;
@@ -60,8 +59,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()//기본 로그인 페이지 사용x
                 .csrf().disable()   //REST API 사용하기 때문에
-                .authorizeRequests().antMatchers("/authenticate", "/api/member").permitAll()
-                .anyRequest().authenticated()
+                .authorizeRequests().antMatchers("/authenticate", "/api/member", "/","/members/login","/members/new").permitAll()
+                .antMatchers("/list","/post", "/post/{no}", "board/search","/post/edit/{no}").hasRole("USER")           //USER, ADMIN 접근 가능
+                .antMatchers("/admin/**").hasRole("ADMIN")     //ADMIN만 접근 가능
+                .anyRequest().authenticated()   //나머지 요청들은 권한이 있어야만 접근 가능
+                .and()
+                .formLogin()
+                .loginPage("/members/login")    //로그인 페이지
+                .defaultSuccessUrl("/list") //로그인 성공 후
+                .and()
+                .logout()
+                .logoutSuccessUrl("/members/login")//로그아웃 성공
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -69,19 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//                .antMatchers("/","/members/login","/members/new").permitAll()  //누구나 접근 가능
-//                .antMatchers("/list","/post", "/post/{no}", "board/search","/post/edit/{no}").hasRole("USER")           //USER, ADMIN 접근 가능
-//                .antMatchers("/admin/**").hasRole("ADMIN")     //ADMIN만 접근 가능
-//                .anyRequest().authenticated()   //나머지 요청들은 권한이 있어야만 접근 가능
-//                .and()
-//                    .formLogin()
-//                    .loginPage("/members/login")    //로그인 페이지
-//                    .defaultSuccessUrl("/list") //로그인 성공 후
-//                .and()
-//                    .logout()
-//                    .logoutSuccessUrl("/members/login");//로그아웃 성공
-
 
     }
 
