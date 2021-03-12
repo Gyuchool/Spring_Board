@@ -52,12 +52,8 @@ public class MemberController {
     }
 
     @PostMapping("/members/login")
-    public String MemberLogin(HttpServletRequest request, MemberDto memberDto){
-        int login = memberService.login(memberDto);
-        if(login == 1){
-            return "redirect:/list";
-        }
-        return "redirect:/member/login";
+    public String MemberLogin(MemberDto memberDto){
+        return memberService.login(memberDto);
     }
 
     /**

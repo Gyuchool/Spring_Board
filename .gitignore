@@ -1,7 +1,7 @@
 HELP.md
 .gradle
 build/
-src/main/java/board/configuration/JwtTokenUtil.java
+src/main/java/board/configuration/JwtTokenProvider.java
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/

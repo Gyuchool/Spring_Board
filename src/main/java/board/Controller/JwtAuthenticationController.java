@@ -2,7 +2,7 @@ package board.Controller;
 
 import board.Domain.Entity.MemberEntity;
 import board.Service.JwtUserDetailsService;
-import board.configuration.JwtTokenUtil;
+import board.configuration.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class JwtAuthenticationController {
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenProvider JwtTokenProvider;
     private final JwtUserDetailsService userDetailService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         final MemberEntity member = userDetailService.authenticateByEmailAndPassword
                 (authenticationRequest.getEmail(), authenticationRequest.getPassword());
-        final String token = jwtTokenUtil.generateToken(member.getEmail());
+        final String token = JwtTokenProvider.generateToken(member.getEmail());
         return ResponseEntity.ok(new JwtResponse(token));
     }
 

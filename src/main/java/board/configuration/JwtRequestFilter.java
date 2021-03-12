@@ -26,7 +26,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     //Authorization값을 꺼내어 토큰을 검사하고 해당 유저가 실제 DB에 있는지 검사하는 등의 전반적인 인증처리
 
     private final JwtUserDetailsService jwtUserDetailService;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenProvider jwtTokenProvider;
 
     private static final List<String> EXCLUDE_URL =
             Collections.unmodifiableList(
@@ -48,7 +48,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+                username = jwtTokenProvider.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (ExpiredJwtException e) {
@@ -61,7 +61,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.jwtUserDetailService.loadUserByUsername(username);
 
-            if(jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+            if(jwtTokenProvider.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null ,userDetails.getAuthorities());
 
@@ -79,4 +79,3 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
 }
-

@@ -23,6 +23,8 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
+
+    // 권한 //
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         MemberEntity member = memberRepository.findByEmail(email)
@@ -36,6 +38,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         return new User(member.getEmail(), member.getPassword(), grantedAuthorities);
     }
 
+    // 인증 //
     public MemberEntity authenticateByEmailAndPassword(String email, String password) {
         MemberEntity member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));

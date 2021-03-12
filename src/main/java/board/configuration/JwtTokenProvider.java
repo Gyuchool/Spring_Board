@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 //Jwt Token Provider
-public class JwtTokenUtil {
+public class JwtTokenProvider {
 
     private static final String secret = "jwtpassword"; //수정 필요
     // 토큰 유효 기간
@@ -47,7 +47,7 @@ public class JwtTokenUtil {
                 .setIssuedAt(new Date(System.currentTimeMillis()))  // 토큰 발행 시간 정보
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY)) // set Expire Time
                 .signWith(SignatureAlgorithm.HS512, secret)// 사용할 암호화 알고리즘과
-                                                // signature 에 들어갈 secret값 세팅
+                // signature 에 들어갈 secret값 세팅
                 .compact();
     }
 
