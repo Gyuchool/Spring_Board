@@ -3,6 +3,7 @@ package board.configuration;
 import board.Service.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +35,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                             "/api/member",
                             "/authenticate"
                     ));
-
 
     // * 클래스로서 요청당 한번의 filter를 수행하도록 * //
     @Override

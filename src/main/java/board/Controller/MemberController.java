@@ -38,7 +38,7 @@ public class MemberController {
 
     @PostMapping("/members/new")
     public String MemberJoin(MemberDto memberDto){
-        memberDto.setAuth("ROLE_USER");
+        memberDto.setAuth("USER");
         memberService.join(memberDto);
         return "redirect:/";
     }
@@ -53,7 +53,8 @@ public class MemberController {
 
     @PostMapping("/members/login")
     public String MemberLogin(MemberDto memberDto){
-        return memberService.login(memberDto);
+         memberService.login(memberDto);
+         return "/board/list";
     }
 
     /**

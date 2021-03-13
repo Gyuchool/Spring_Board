@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
 public class MemberDto {
     private Long id;
     private String email;
@@ -26,10 +25,10 @@ public class MemberDto {
         return memberEntity;
     }
 
-    public MemberDto(Long id, String email, String password, String auth){
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.auth = auth;
+    public MemberDto(MemberEntity memberEntity){
+        this.id = memberEntity.getId();
+        this.email = memberEntity.getEmail();
+        this.password = memberEntity.getPassword();
+        this.auth = memberEntity.getAuth();
     }
 }
