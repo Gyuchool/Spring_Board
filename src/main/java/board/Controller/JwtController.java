@@ -1,7 +1,7 @@
 //package board.Controller;
 //
 //import board.Domain.Entity.UserEntity;
-//import board.Service.JwtUserDetailsService;
+//import board.Service.UserService;
 //import board.Service.UserService;
 //import board.configuration.JwtTokenProvider;
 //import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@
 //public class JwtController {
 //
 //    private final board.configuration.JwtTokenProvider JwtTokenProvider;
-//    private final JwtUserDetailsService userDetailService;
+//    private final UserService userDetailService;
 //    private final UserService userService;
 //
 //    @PostMapping("/authenticate")

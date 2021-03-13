@@ -1,9 +1,9 @@
 package board.configuration;
 
-import board.Service.JwtUserDetailsService;
+import board.Service.CustomUserDetailsService;
+import board.Service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,16 +25,8 @@ import java.util.List;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     //Authorization값을 꺼내어 토큰을 검사하고 해당 유저가 실제 DB에 있는지 검사하는 등의 전반적인 인증처리
-
-    private final JwtUserDetailsService jwtUserDetailService;
+    private final CustomUserDetailsService userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
-
-    private static final List<String> EXCLUDE_URL =
-            Collections.unmodifiableList(
-                    Arrays.asList(
-                            "/api/member",
-                            "/authenticate"
-                    ));
 
     // * 클래스로서 요청당 한번의 filter를 수행하도록 * //
     @Override
@@ -45,8 +37,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwtToken = null;
 
 
-        if (requestTokenHeader != null) {// && requestTokenHeader.startsWith("Bearer ")
-            jwtToken = requestTokenHeader; //.substring(7)
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+            jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenProvider.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
@@ -59,7 +51,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.jwtUserDetailService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if(jwtTokenProvider.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken =
@@ -72,10 +64,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
-    // * exclude 시킬 url을 지정할 수 있다. *//
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return EXCLUDE_URL.stream().anyMatch(exclude -> exclude.equalsIgnoreCase(request.getServletPath()));
-    }
 
 }

@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Component
 public class JwtTokenProvider {
 
-    private static final String secret = "BearersecretKey!!!"; //수정 필요
+    private static final String secret = "secretKey"; //수정 필요
     // 토큰 유효 기간
     public static final long JWT_TOKEN_VALIDITY = 60 * 60 * 24 * 1000L; //하루
 
