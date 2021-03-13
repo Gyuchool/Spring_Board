@@ -1,9 +1,9 @@
 package board.Service;
 
-import board.Domain.Entity.MemberEntity;
-import board.Domain.Repository.MemberRepository;
+import board.Domain.Entity.UserEntity;
+import board.Domain.Repository.UserRepository;
 import board.configuration.JwtTokenProvider;
-import board.dto.MemberDto;
+import board.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,38 +15,42 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberService {
+public class UserService {
 
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     //==Spring Security 회원가입==//
-    public Long join(MemberDto memberDto){
-        validateDuplicateMember(memberDto);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        memberDto.setPassword(encoder.encode(memberDto.getPassword()));
+    public Long join(UserDto userDto){
 
-        return memberRepository.save(memberDto.toEntity()).getId();
+        validateDuplicateMember(userDto);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userDto.setPassword(encoder.encode(userDto.getPassword()));
+
+        return userRepository.save(UserEntity.builder()
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .auth("USER").build()).getId();
     }
 
     //==중복 방지==//
-    private void validateDuplicateMember(MemberDto memberDto) {
+    private void validateDuplicateMember(UserDto userDto) {
 
-        memberRepository.findByEmail(memberDto.getEmail())
+        userRepository.findByEmail(userDto.getEmail())
                 .ifPresent( error -> new IllegalStateException("이미 존재하는 회원입니다."));
     }
 
-    public String login(MemberDto memberDto){
+    public String login(UserDto userDto){
 
-        MemberEntity memberEntity = memberRepository.findByEmail(memberDto.getEmail())
+        UserEntity userEntity = userRepository.findByEmail(userDto.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
 
-        if (!passwordEncoder.matches(memberEntity.getPassword(), memberDto.getPassword())) {
+        if (!passwordEncoder.matches(userEntity.getPassword(), userDto.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
 
-        return jwtTokenProvider.generateToken(memberEntity.getUsername());
+        return jwtTokenProvider.generateToken(userEntity.getUsername());
     }
 
 }

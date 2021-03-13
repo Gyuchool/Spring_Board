@@ -16,10 +16,10 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
-@Table(name = "member")
+@Table(name = "User")
 @Builder
 @AllArgsConstructor
-public class MemberEntity implements UserDetails {
+public class UserEntity{
     @Id
     @GeneratedValue
     private Long id;
@@ -37,31 +37,6 @@ public class MemberEntity implements UserDetails {
             roles.add(new SimpleGrantedAuthority(role));
         }
         return roles;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
 }

@@ -1,8 +1,8 @@
 package board.Controller;
 
 
-import board.Service.MemberService;
-import board.dto.MemberDto;
+import board.Service.UserService;
+import board.dto.UserDto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +19,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberService memberService;
+    private final UserService userService;
 
     @GetMapping("/")
     public String home(Principal principal) {
@@ -37,9 +37,9 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String MemberJoin(MemberDto memberDto){
-        memberDto.setAuth("USER");
-        memberService.join(memberDto);
+    public String MemberJoin(UserDto userDto){
+        userDto.setAuth("USER");
+        userService.join(userDto);
         return "redirect:/";
     }
 
@@ -52,8 +52,8 @@ public class MemberController {
     }
 
     @PostMapping("/members/login")
-    public String MemberLogin(MemberDto memberDto){
-         memberService.login(memberDto);
+    public String MemberLogin(UserDto userDto){
+         userService.login(userDto);
          return "/board/list";
     }
 

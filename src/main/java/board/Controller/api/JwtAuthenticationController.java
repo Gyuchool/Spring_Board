@@ -1,10 +1,10 @@
 package board.Controller.api;
 
-import board.Domain.Entity.MemberEntity;
+import board.Domain.Entity.UserEntity;
 import board.Service.JwtUserDetailsService;
-import board.Service.MemberService;
+import board.Service.UserService;
 import board.configuration.JwtTokenProvider;
-import board.dto.MemberDto;
+import board.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +22,14 @@ public class JwtAuthenticationController {
 
     private final JwtTokenProvider JwtTokenProvider;
     private final JwtUserDetailsService userDetailService;
-    private final MemberService memberService;
+    private final UserService userService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        final MemberEntity member = userDetailService.authenticateByEmailAndPassword
+        final UserEntity member = userDetailService.authenticateByEmailAndPassword
                 (authenticationRequest.getEmail(), authenticationRequest.getPassword());
         final String token = JwtTokenProvider.generateToken(member.getEmail());
+        System.out.println(token);
         return ResponseEntity.ok(new JwtResponse(token));
     }
     @Data
@@ -47,9 +48,10 @@ public class JwtAuthenticationController {
     }
     @PostMapping("/api/member")
     public JwtResponse singup(@RequestBody JwtRequest jwtRequest){
-        MemberEntity memberEntity = userDetailService.authenticateByEmailAndPassword(jwtRequest.getEmail(), jwtRequest.getPassword());
-        memberService.join(new MemberDto(memberEntity));
-        return new JwtResponse("true");
+        UserEntity userEntity = userDetailService.authenticateByEmailAndPassword(jwtRequest.getEmail(), jwtRequest.getPassword());
+        userService.join(new UserDto(userEntity));
+        String s = JwtTokenProvider.generateToken(jwtRequest.getEmail());
+        return new JwtResponse(s);
     }
 
 }

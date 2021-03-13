@@ -1,8 +1,8 @@
 package board.Service;
 
-import board.Domain.Entity.MemberEntity;
+import board.Domain.Entity.UserEntity;
 import board.Domain.Entity.Role;
-import board.Domain.Repository.MemberRepository;
+import board.Domain.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,30 +24,30 @@ import java.util.Set;
 public class JwtUserDetailsService implements UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
     // 빈의 참조 순환을 막기 위해서 @Lazy 어노테이션 이용해서 실제 값을 받기전에 proxy로 대체한다..!
-    JwtUserDetailsService(@Lazy PasswordEncoder passwordEncoder,@Lazy MemberRepository memberRepository){
+    JwtUserDetailsService(@Lazy PasswordEncoder passwordEncoder,@Lazy UserRepository userRepository){
         this.passwordEncoder = passwordEncoder;
-        this.memberRepository = memberRepository;
+        this.userRepository = userRepository;
     }
     // 권한 //
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        MemberEntity member = memberRepository.findByEmail(email)
+        UserEntity member = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(Role.USER.toString()));
+        grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
         if (email.equals("giron1210@naver.com")) {  //내 이메일만 admin
-            grantedAuthorities.add(new SimpleGrantedAuthority(Role.ADMIN.toString()));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ADMIN"));
         }
 
         return new User(member.getEmail(), member.getPassword(), grantedAuthorities);
     }
 
     // 인증 //
-    public MemberEntity authenticateByEmailAndPassword(String email, String password) {
-        MemberEntity member = memberRepository.findByEmail(email)
+    public UserEntity authenticateByEmailAndPassword(String email, String password) {
+        UserEntity member = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
 
         if(!passwordEncoder.matches(password, member.getPassword())) {
