@@ -18,11 +18,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    //    // 빈의 참조 순환을 막기 위해서 @Lazy 어노테이션 이용해서 실제 값을 받기전에 proxy로 대체한다..!
-//    UserService(@Lazy PasswordEncoder passwordEncoder,@Lazy UserRepository userRepository){
-//        this.passwordEncoder = passwordEncoder;
-//        this.userRepository = userRepository;
-//    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)

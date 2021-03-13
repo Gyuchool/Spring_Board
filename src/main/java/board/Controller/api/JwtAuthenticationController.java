@@ -42,7 +42,7 @@ public class JwtAuthenticationController {
                 .build()).getId();
     }
 
-    // 로그인
+    // 로그인하면 토큰 생성
     @PostMapping("/login")
     public String login(@RequestBody Map<String, String> user) {
         UserEntity member = userRepository.findByEmail(user.get("email"))
@@ -72,13 +72,6 @@ public class JwtAuthenticationController {
 
         private String email;
         private String password;
-
-    }
-    @Data
-    @AllArgsConstructor
-    private static class JwtResponse {
-
-        private String token;
 
     }
 
