@@ -14,12 +14,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,6 +40,16 @@ public class JwtAuthenticationController {
                 .build()).getId();
     }
 
+    @GetMapping("/all")
+    public ResponseA allMember(){
+        List<UserEntity> all = userRepository.findAll();
+        return new ResponseA(all);
+    }
+    @Data
+    @AllArgsConstructor
+    static class ResponseA<T>{
+        T data;
+    }
     // 로그인하면 토큰 생성
     @PostMapping("/login")
     public String login(@RequestBody Map<String, String> user) {

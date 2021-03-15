@@ -36,7 +36,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwtToken = null;
 
-
+        //토큰에 헤드를 넣어 넘길때 : "Bearer "+ token 으로 만들어서 Authorization: 에 넣어 보내기
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
             try {

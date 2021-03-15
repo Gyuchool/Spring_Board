@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()//기본 로그인 페이지 사용x
                 .csrf().disable()   //REST API 사용하기 때문에
                 .authorizeRequests().antMatchers("/authenticate", "/join", "/login", "/api/member", "/","/members/login","/members/new").permitAll()
-                .antMatchers("/list","/post", "/post/{no}", "board/search","/post/edit/{no}").hasRole("USER")           //USER, ADMIN 접근 가능
+                .antMatchers("/list","/post", "/all", "/post/{no}", "board/search","/post/edit/{no}").hasRole("USER")           //USER, ADMIN 접근 가능
                 .antMatchers("/admin/**").hasRole("ADMIN")     //ADMIN만 접근 가능
                 .anyRequest().authenticated()   //나머지 요청들은 권한이 있어야만 접근 가능
                 .and()
