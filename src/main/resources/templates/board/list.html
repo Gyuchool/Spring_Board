@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="board/layout/basic" xmlns:sec="http://www.w3.org/1999/xhtml">
+<th:block layout:fragment="title">
+    <title>Campus Board</title>
+</th:block>
+
+<body>
+    <p>
+        <span sec:authentication = "name"></span>님 환영합니다~
+    </p>
+    <a th:href="@{/home.html}">뒤로 돌아가기</a>
+</body>
+<th:block layout:fragment="search">
+    <form action="/board/search" method="GET" id="searchform-header" class="searchform js__toggle active pull-right">
+        <input type="search" placeholder="Search..." class="input-search" name="keyword" >
+        <button class="mdi mdi-magnify button-search" type="submit">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+    </form>
+</th:block>
+
+<th:block layout:fragment="content">
+    <div class="table-responsive clearfix">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th>조회 수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${not #lists.isEmpty( boardList )}" th:each="board : ${boardList}">
+                <!--td scope="board" th:text="${#strings.equals( board.noticeYn, 'Y' ) ? '공지' : board.id}"></td-->
+                <td th:text="${board.id}"></td>
+                <td class="text-left">
+                    <a th:href="@{'/post/' + ${board.id}}">
+                        <span th:text="${board.title}"></span>
+                    </a>
+                </td>
+                <td th:text="${board.writer}"></td>
+                <td><span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}"></span></td>
+                <td th:text="${board.viewcnt}"></td>
+            </tr>
+            <tr th:unless="${not #lists.isEmpty( boardList )}">
+                <td colspan="5">조회된 결과가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="btn_wrap text-right">
+            <a th:href="@{/post}" class="btn btn-primary waves-effect waves-light">Write</a>
+        </div>
+        <div>
+        <span th:each="pageNum : ${pageList}" th:inline="text">
+            <a th:href="@{'/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+        </span>
+        </div>
+    </div>
+</th:block>
+</html>
