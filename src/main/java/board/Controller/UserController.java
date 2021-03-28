@@ -46,11 +46,6 @@ public class UserController {
     public String MemberLoginForm(){
         return "members/login";
     }
-    //== 로그인 결과 페이지!! ==//
-    @PostMapping("/user/login")
-    public String MemberLogin(){
-         return "/board/list";
-    }
 
     /**
      * 접근 금지 페이지

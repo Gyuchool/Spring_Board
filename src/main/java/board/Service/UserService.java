@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
 
         validateDuplicateMember(userDto);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userDto.setPassword(encoder.encode(userDto.getPassword()));
+        userDto.setPassword(encoder.encode(userDto.getPassword())); //encoding
 
         return userRepository.save(UserEntity.builder()
                 .email(userDto.getEmail())
@@ -40,13 +40,13 @@ public class UserService implements UserDetailsService {
                 .auth("ROLE_USER").build()).getId();
     }
 
-    //==중복 방지==//
-    private void validateDuplicateMember(UserDto userDto) {
+     //==중복 방지==//
+        private void validateDuplicateMember(UserDto userDto) {
 
-        userRepository.findByEmail(userDto.getEmail())
-                .ifPresent( error -> new IllegalStateException("이미 존재하는 회원입니다."));
-    }
-
+            if(userRepository.findByEmail(userDto.getEmail()).isPresent()){
+                throw new IllegalStateException("이미 존재하는 회원입니다.");
+            }
+        }
 //    public String login(UserDto userDto){
 //
 //        UserEntity userEntity = userRepository.findByEmail(userDto.getEmail())
@@ -58,19 +58,8 @@ public class UserService implements UserDetailsService {
 //    }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-
-        Optional<UserEntity> userEntityWrapper = userRepository.findByEmail(userName);
-        UserEntity userEntity = userEntityWrapper.get();
-        // form에서 name = "username"으로 요청해야만 한다...!
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        if (("admin@example.com").equals(userName)) {
-            authorities.add(new SimpleGrantedAuthority(Role.ADMIN.toString())); //권한 부여
-        } else {
-            authorities.add(new SimpleGrantedAuthority(Role.USER.toString())); //권한 부여
-        }
-
-        return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
+    public UserEntity loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
     }
 }

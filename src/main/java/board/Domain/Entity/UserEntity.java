@@ -17,7 +17,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Table(name = "user")
-@Builder
 @AllArgsConstructor
 public class UserEntity implements UserDetails {
     @Id
@@ -29,6 +28,12 @@ public class UserEntity implements UserDetails {
     private String password;
     private String auth;
 
+    @Builder
+    public UserEntity(String email, String password, String auth){
+        this.email = email;
+        this.password = password;
+        this.auth = auth;
+    }
     //사용자의 권한을 컬렉션 형태로 반환
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -39,8 +44,8 @@ public class UserEntity implements UserDetails {
         return roles;
     }
 
-    public void setPassword(String password){
-        this.password = password;
+    public String getPassword(){
+        return password;
     }
     @Override
     public String getUsername() {

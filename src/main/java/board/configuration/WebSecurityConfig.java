@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 
 @EnableWebSecurity
@@ -41,11 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()   //나머지 요청들은 권한이 있어야만 접근 가능
                 .and()
                 .formLogin()
-                .loginPage("/members/login")    //로그인 페이지
-                .defaultSuccessUrl("/board/list") //로그인 성공 후
+                .loginPage("/user/login")    //로그인 페이지
+                .defaultSuccessUrl("/") //로그인 성공 후
                 .and()
                 .logout()
-                .logoutSuccessUrl("/members/login")//로그아웃 성공
+                .logoutSuccessUrl("/")//로그아웃 성공
                 .invalidateHttpSession(true)    //http 세션 초기화
                 .and()
                 .exceptionHandling().accessDeniedPage("/user/denied");  //403  예외처리 핸들링
