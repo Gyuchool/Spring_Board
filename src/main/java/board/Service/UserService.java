@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
     //==Spring Security 회원가입==//
     public Long join(UserDto userDto){
 
-        validateDuplicateMember(userDto);
+        //validateDuplicateMember(userDto);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userDto.setPassword(encoder.encode(userDto.getPassword())); //encoding
 
@@ -39,23 +39,14 @@ public class UserService implements UserDetailsService {
                 .password(userDto.getPassword())
                 .auth("ROLE_USER").build()).getId();
     }
-
-     //==중복 방지==//
-        private void validateDuplicateMember(UserDto userDto) {
-
-            if(userRepository.findByEmail(userDto.getEmail()).isPresent()){
-                throw new IllegalStateException("이미 존재하는 회원입니다.");
-            }
-        }
-//    public String login(UserDto userDto){
 //
-//        UserEntity userEntity = userRepository.findByEmail(userDto.getEmail())
-//                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+//     //==중복 방지==//
+//        private void validateDuplicateMember(UserDto userDto) {
 //
-//        if (!passwordEncoder.matches(userEntity.getPassword(), userDto.getPassword())) {
-//            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
+//            if(userRepository.findByEmail(userDto.getEmail()).isPresent()){
+//                throw new IllegalStateException("이미 존재하는 회원입니다.");
+//            }
 //        }
-//    }
 
     @Override
     public UserEntity loadUserByUsername(String email) throws UsernameNotFoundException {
