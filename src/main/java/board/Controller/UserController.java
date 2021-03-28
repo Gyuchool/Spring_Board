@@ -22,10 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/")
-    public String home(Principal principal) {
-        if(principal != null) {
-            return "redirect:/list";
-        }
+    public String home() {
         return "home.html";
     }
     /**
@@ -38,9 +35,8 @@ public class UserController {
 
     @PostMapping("/user/new")
     public String MemberJoin(UserDto userDto){
-        userDto.setAuth("USER");
         userService.join(userDto);
-        return "redirect:/";
+        return "home.html";
     }
 
     /**

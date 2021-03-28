@@ -10,23 +10,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserDto {
-    private Long id;
+
     private String email;
     private String password;
     private String auth;
 
-    public UserEntity toEntity(){
-        UserEntity userEntity = UserEntity.builder()
-                .id(id)
-                .email(email)
-                .password(password)
-                .auth(auth)
-                .build();
-        return userEntity;
-    }
 
     public UserDto(UserEntity userEntity){
-        this.id = userEntity.getId();
+
         this.email = userEntity.getEmail();
         this.password = userEntity.getPassword();
         this.auth = userEntity.getAuth();
