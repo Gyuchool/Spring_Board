@@ -44,7 +44,7 @@
         </form>
 
         <div class="btn_wrap text-center">
-            <a th:href="@{/}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
+            <a th:href="@{/list}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
             <a th:href="@{'/post/edit/' + ${boardDto.id}}" method = "GET" class="btn btn-primary waves-effect waves-light">수정하기</a>
             <form id="delete-form" th:action="@{'/post/' + ${boardDto.id}}" method="post">
                 <input type="hidden" name="_method" value="delete"/>

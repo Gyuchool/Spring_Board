@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
             return userRepository.save(UserEntity.builder()
             .email(userDto.getEmail())
             .password(userDto.getPassword())
-            .auth("ROLE_ADMIN,ROLE_USER").build()).getId();
+            .auth("ROLE_ADMIN,ROLE_USER").build()).getId(); //띄어쓰기 ㄴㄴ
         }
         else
             return userRepository.save(UserEntity.builder()

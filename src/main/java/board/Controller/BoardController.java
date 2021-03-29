@@ -65,14 +65,14 @@ public class BoardController {
     @PostMapping("/post/edit/{no}")
     public String update(BoardDto boardDTO) {
         boardService.savePost(boardDTO);
-        return "redirect:/";
+        return "redirect:/list";
     }
 
     /* 게시글 삭제 */
     @PostMapping("/post/{no}")
     public String delete(@PathVariable("no") Long no) {
         boardService.deletePost(no);
-        return "redirect:/";
+        return "redirect:/list";
     }
     /* 검색 */
     @GetMapping("/board/search")
