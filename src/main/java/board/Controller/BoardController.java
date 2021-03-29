@@ -49,7 +49,7 @@ public class BoardController {
         boardDto.setViewcnt(0);
         boardService.savePost(boardDto);
 
-        return "redirect:/";
+        return "redirect:/list";
     }
 
 

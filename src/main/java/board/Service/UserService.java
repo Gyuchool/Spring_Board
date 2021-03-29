@@ -33,8 +33,14 @@ public class UserService implements UserDetailsService {
         //validateDuplicateMember(userDto);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userDto.setPassword(encoder.encode(userDto.getPassword())); //encoding
-
-        return userRepository.save(UserEntity.builder()
+        if(userDto.getEmail().equals("admin@example.com")){
+            return userRepository.save(UserEntity.builder()
+            .email(userDto.getEmail())
+            .password(userDto.getPassword())
+            .auth("ROLE_ADMIN,ROLE_USER").build()).getId();
+        }
+        else
+            return userRepository.save(UserEntity.builder()
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
                 .auth("ROLE_USER").build()).getId();
