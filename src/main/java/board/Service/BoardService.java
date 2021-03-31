@@ -26,7 +26,7 @@ public class BoardService {
         List<BoardDto> boardDtoList = new ArrayList<>();
 
         boardEntities.stream().forEach(boardEntity -> {
-            boardDtoList.add(convertEntityToDto(boardEntity));
+            boardDtoList.add(new BoardDto(boardEntity));
         });
 
         /*
@@ -48,19 +48,25 @@ public class BoardService {
         Optional<BoardEntity> boardEntityWrapper = boardRepository.findById(id);
         BoardEntity boardEntity = boardEntityWrapper.get();
 
-        return this.convertEntityToDto(boardEntity);
+        return new BoardDto(boardEntity);
     }
 
     @Transactional
     public Long savePost(BoardDto boardDto) {
 
-        return boardRepository.save(boardDto.toEntity()).getId();
+        return boardRepository.save(BoardEntity.builder()
+            .id(boardDto.getId())
+            .title(boardDto.getTitle())
+        .content(boardDto.getContent())
+        .viewcnt(boardDto.getViewcnt())
+        .writer(boardDto.getWriter())
+        .build()).getId();
     }
     @Transactional
-    public Long addViews(BoardDto boardDto){
-        int view = boardDto.getViewcnt();
-        boardDto.setViewcnt(view+1);
-        return boardRepository.save(boardDto.toEntity()).getId();
+    public void addViews(Long boardId){
+        BoardEntity boardEntity = boardRepository.findById(boardId).get();
+        boardEntity.addView();
+
     }
 
     @Transactional
@@ -76,21 +82,10 @@ public class BoardService {
         if (boardEntities.isEmpty()) return boardDtoList;
 
         for (BoardEntity boardEntity : boardEntities) {
-            boardDtoList.add(this.convertEntityToDto(boardEntity));
+            boardDtoList.add(new BoardDto(boardEntity));
         }
 
         return boardDtoList;
     }
 
-    private BoardDto convertEntityToDto(BoardEntity boardEntity) {
-        return BoardDto.builder()
-                .id(boardEntity.getId())
-                .title(boardEntity.getTitle())
-                .content(boardEntity.getContent())
-                .writer(boardEntity.getWriter())
-                .viewcnt(boardEntity.getViewcnt())
-                .createdDate(boardEntity.getCreatedDate())
-                .modifiedDate(boardEntity.getModifiedDate())
-                .build();
-    }
 }

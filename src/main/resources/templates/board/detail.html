@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="board/layout/basic">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="board/layout/basic" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 <th:block layout:fragment="title">
     <title>this is view page</title>
 </th:block>
@@ -47,7 +48,9 @@
             <a th:href="@{/list}" class="btn btn-default waves-effect waves-light">뒤로가기</a>
             <a th:href="@{'/post/edit/' + ${boardDto.id}}" method = "GET" class="btn btn-primary waves-effect waves-light">수정하기</a>
             <form id="delete-form" th:action="@{'/post/' + ${boardDto.id}}" method="post">
-                <input type="hidden" name="_method" value="delete"/>
+
+                <input type="hidden" name="_method" value="delete" />
+                <input type="hidden" th:if="session.ids ne ${null}" />
                 <button class="btn btn-danger waves-effect waves-light" id="delete-btn">삭제</button>
             </form>
         </div>

@@ -1,9 +1,15 @@
 package board.Controller;
 
+import board.Domain.Entity.BoardEntity;
 import board.Domain.Entity.UserEntity;
+import board.Domain.Repository.BoardRepository;
+import board.Domain.Repository.UserRepository;
+import board.Service.UserService;
 import board.dto.BoardDto;
 import board.Service.BoardService;
+import board.dto.UserDto;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +19,11 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BoardController {
-    @Autowired
-    private BoardService boardService;
+
+    private final BoardService boardService;
+    private final BoardRepository boardRepository;
 
     /* 게시글 목록 */
     @GetMapping("/list")
@@ -34,7 +41,7 @@ public class BoardController {
     public String detail(@PathVariable("no") Long no, Model model) {
         BoardDto boardDTO = boardService.getPost(no);
 
-        boardService.addViews(boardDTO);
+        boardService.addViews(no);
         model.addAttribute("boardDto", boardDTO);
         return "board/detail";
     }
@@ -72,10 +79,11 @@ public class BoardController {
 
     /* 게시글 삭제 */
     @PostMapping("/post/{no}")
-    public String delete(@PathVariable("no") Long no, HttpSession session) throws Exception {
+    public String delete(@PathVariable("no") Long no) throws Exception {
         // == 수정 == //
         boardService.deletePost(no);
         return "redirect:/list";
+
     }
     /* 검색 */
     @GetMapping("/board/search")

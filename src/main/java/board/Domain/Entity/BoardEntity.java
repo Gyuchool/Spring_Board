@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "board")
-@Builder
 public class BoardEntity extends TimeEntity{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -28,6 +27,14 @@ public class BoardEntity extends TimeEntity{
     @Column(name = "views")
     private int viewcnt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    UserEntity userEntity;
+
+    public void addView(){
+        viewcnt++;
+    }
+    @Builder
     public BoardEntity(Long id, String title, String content, String writer, int viewcnt) {
         this.id = id;
         this.title = title;
