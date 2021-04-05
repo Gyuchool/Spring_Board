@@ -68,7 +68,7 @@ public class BoardController {
         BoardDto boardDTO = boardService.getPost(no);
 
         model.addAttribute("boardDto", boardDTO);
-        return "board/update.html";
+        return "board/update";
     }
 
     @PostMapping("/post/edit/{no}")
