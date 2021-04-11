@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>메인</title>
+
 </head>                                                     <!--로그인되있는 사용자 이름-->
     <h2 sec:authorize = "isAuthenticated()"> 반갑습니다. <span sec:authentication="name"></span>님!
     </h2>
 <body>
 <h1>메인 페이지</h1>
     <hr>    <!-- isAnnonymous() 익명일 경우 노출, isAuthenticated() 인증된 사용자일 경우 노출, hasRole() 롤 가진사용자 노출-->
-    <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+
+    <a sec:authorize="isAnonymous()" data-th-class="notice-blue" th:href="@{/user/login}">로그인</a>
     <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
     <a sec:authorize="isAnonymous()" th:href="@{/user/new}">회원가입</a>
     <a sec:authorize="hasRole('ROLE_USER')" th:href="@{/user/info}">내정보</a>
