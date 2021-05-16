@@ -3,7 +3,6 @@ package board.Controller;
 
 import board.Service.UserService;
 import board.dto.UserDto;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
