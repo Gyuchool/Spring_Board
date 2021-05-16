@@ -23,7 +23,6 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final BoardRepository boardRepository;
 
     /* 게시글 목록 */
     @GetMapping("/list")
