@@ -28,8 +28,6 @@ CosmeticsApp uses a number of open source projects to work properly:
   - USER
   
 # 간단한 소개
-- 메인페이지
-https://www.notion.so/52a70bcb7ecb48a0b837469790350640#b59f786064b2448fb391fa8850706a63
 ## 로그인 후 페이지
 ![image](https://user-images.githubusercontent.com/60054318/138500013-f0c21ffe-9e59-4935-a2f4-28bef1ad40db.png)
 ## 게시물 목록보기 페이지
