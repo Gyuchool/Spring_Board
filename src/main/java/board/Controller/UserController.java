@@ -2,8 +2,10 @@ package board.Controller;
 
 
 import board.Service.UserService;
+import board.aop.LogExecutionTime;
 import board.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @LogExecutionTime
     @GetMapping("/")
     public String home() {
         return "home.html";
@@ -27,6 +30,7 @@ public class UserController {
     /**
      * 회원가입
      */
+    @LogExecutionTime
     @GetMapping("/user/new")
     public String MemberForm(){
         return "members/signup";

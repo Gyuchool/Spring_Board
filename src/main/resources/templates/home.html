@@ -17,5 +17,6 @@
     <a sec:authorize="hasRole('ROLE_USER')" th:href="@{/user/info}">내정보</a>
     <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">어드민</a>
     <a sec:authorize="hasRole('ROLE_USER')" th:href="@{/list}">게사글 목록보러 가기</a>
+    자동 로그인 : <input type="checkbox" name="remember-me">
 </body>
 </html>
