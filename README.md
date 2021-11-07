@@ -1,4 +1,4 @@
-# ???
+# 처음으로 직접 구현해봄(spring)
 ## 미 정
 
 [![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
@@ -27,8 +27,21 @@ CosmeticsApp uses a number of open source projects to work properly:
   - ADMIN
   - USER
   
-## API
-- ???
+# 간단한 소개
+## 로그인 후 페이지
+![image](https://user-images.githubusercontent.com/60054318/138500013-f0c21ffe-9e59-4935-a2f4-28bef1ad40db.png)
+## 게시물 목록보기 페이지
+![image](https://user-images.githubusercontent.com/60054318/138500185-fdb62a0d-4e6a-4ec7-94ad-f084a286b944.png)
+## 게시물 작성 페이지
+![image](https://user-images.githubusercontent.com/60054318/138500322-72764716-8b04-487f-b497-a55d98032e20.png)
+## 작성후 목록
+![image](https://user-images.githubusercontent.com/60054318/138500406-016ad1f9-11b4-4d24-8e2c-5ee4fa031cf0.png)
+## 게시물 세부 사항
+![image](https://user-images.githubusercontent.com/60054318/138500490-48b6746d-6d86-4c0c-9618-5fe40019be45.png)
+
+
+## h2 db
+![image](https://user-images.githubusercontent.com/60054318/138499927-bb167025-958b-4ca0-bb24-cdfdd459c8e1.png)
 
 ## License
 
