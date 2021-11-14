@@ -35,9 +35,9 @@ CosmeticsApp uses a number of open source projects to work properly:
 ## 게시물 작성 페이지
 ![image](https://user-images.githubusercontent.com/60054318/138500322-72764716-8b04-487f-b497-a55d98032e20.png)
 ## 작성후 목록
-![image](https://user-images.githubusercontent.com/60054318/138500406-016ad1f9-11b4-4d24-8e2c-5ee4fa031cf0.png)
+![image](https://user-images.githubusercontent.com/60054318/141688592-8a4f5212-ac59-4271-9875-5e9bb1894889.png)
 ## 게시물 세부 사항
-![image](https://user-images.githubusercontent.com/60054318/138500490-48b6746d-6d86-4c0c-9618-5fe40019be45.png)
+![image](https://user-images.githubusercontent.com/60054318/141688616-ba8e348b-cd3e-480b-8d72-43b4993d5092.png)
 
 
 ## h2 db
